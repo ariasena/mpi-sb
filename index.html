@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif Seni Musik VII - Pianika</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+            background-color: #f8fafc;
+        }
+        .heading-font {
+            font-family: 'Fredoka', cursive;
+        }
+
+        /* Pianika Casing 3D Effect */
+        .pianika-body {
+            background: linear-gradient(180deg, #1e3a8a 0%, #2563eb 15%, #1d4ed8 70%, #1e3a8a 100%);
+            box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Authentic Keybed Frame */
+        .keybed-frame {
+            background: #0f172a;
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(255,255,255,0.1);
+        }
+
+        /* White Keys styling */
+        .white-key {
+            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 80%, #e2e8f0 100%);
+            box-shadow: inset 0 -8px 0 #cbd5e1, 0 4px 6px rgba(0,0,0,0.15), 1px 0 0 #cbd5e1;
+            border-radius: 0 0 6px 6px;
+            transition: all 0.04s ease;
+            cursor: pointer;
+        }
+        .white-key:active, .white-key.active {
+            background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
+            box-shadow: inset 0 -2px 0 #94a3b8, 0 2px 3px rgba(0,0,0,0.2);
+            transform: translateY(4px);
+        }
+
+        /* Black Keys styling */
+        .black-key {
+            background: linear-gradient(to bottom, #334155 0%, #1e293b 70%, #0f172a 100%);
+            box-shadow: inset 0 -5px 0 #020617, 0 4px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.3);
+            border-radius: 0 0 4px 4px;
+            transition: all 0.04s ease;
+            cursor: pointer;
+        }
+        .black-key:active, .black-key.active {
+            background: linear-gradient(to bottom, #0f172a 0%, #020617 100%);
+            box-shadow: inset 0 -2px 0 #000000, 0 2px 4px rgba(0,0,0,0.4);
+            transform: translateY(3px);
+        }
+
+        /* Target Key Golden Glow for Guided Song Practice */
+        .white-key.key-highlight {
+            background: linear-gradient(to bottom, #fef08a 0%, #fde047 80%, #eab308 100%) !important;
+            box-shadow: inset 0 -8px 0 #ca8a04, 0 0 15px rgba(234, 179, 8, 0.9) !important;
+            color: #713f12 !important;
+        }
+        .black-key.key-highlight {
+            background: linear-gradient(to bottom, #eab308 0%, #ca8a04 80%, #a16207 100%) !important;
+            box-shadow: inset 0 -5px 0 #713f12, 0 0 15px rgba(234, 179, 8, 0.9) !important;
+            color: #ffffff !important;
+        }
+
+        /* Custom Scrollbar for Keybed */
+        .keybed-scroll::-webkit-scrollbar {
+            height: 10px;
+        }
+        .keybed-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 6px;
+        }
+        .keybed-scroll::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 6px;
+        }
+
+        /* Hose Animation */
+        @keyframes blowWind {
+            0% { opacity: 0.4; transform: scaleX(0.98); }
+            50% { opacity: 1; transform: scaleX(1.02); }
+            100% { opacity: 0.4; transform: scaleX(0.98); }
+        }
+        .blowing-active {
+            animation: blowWind 0.6s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="bg-indigo-700 text-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-400 p-2.5 rounded-2xl text-indigo-950 font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <div>
+                    <h1 class="heading-font text-lg md:text-2xl font-bold tracking-wide">Seni Musik VII: Bermain Pianika</h1>
+                    <p class="text-xs text-indigo-200">Media Pembelajaran Interaktif SMP (HP, Laptop, PID, Proyektor)</p>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-1 md:space-x-2 bg-indigo-900/60 p-1.5 rounded-2xl text-xs md:text-sm font-semibold overflow-x-auto">
+                <button onclick="switchTab('materi')" id="tab-materi" class="nav-btn px-3.5 py-2 rounded-xl bg-indigo-600 text-white shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i><span>Materi</span>
+                </button>
+                <button onclick="switchTab('pianika')" id="tab-pianika" class="nav-btn px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-800 transition flex items-center gap-2">
+                    <i class="fa-solid fa-keyboard"></i><span>Pianika Virtual</span>
+                </button>
+                <button onclick="switchTab('lagu')" id="tab-lagu" class="nav-btn px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-800 transition flex items-center gap-2">
+                    <i class="fa-solid fa-compact-disc"></i><span>Praktik Lagu</span>
+                </button>
+                <button onclick="switchTab('kuis')" id="tab-kuis" class="nav-btn px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-800 transition flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad"></i><span>Kuis</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 flex-grow w-full">
+
+        <!-- TAB 1: MATERI -->
+        <section id="sec-materi" class="tab-content block space-y-6">
+            <!-- Banner Tujuan Pembelajaran -->
+            <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">Capaian Pembelajaran Fase D</span>
+                    <h2 class="heading-font text-2xl md:text-3xl font-bold">Pengenalan Alat Musik & Unjuk Kerja Pianika</h2>
+                    <p class="text-amber-100 text-xs md:text-sm max-w-2xl leading-relaxed">
+                        Peserta didik mampu mengidentifikasi pengelompokan alat musik berdasarkan fungsinya (Melodis, Ritmis, Harmonis) serta mempraktikkan teknik dasar pernapasan, penjarian, dan bermain melodi lagu dengan Pianika.
+                    </p>
+                </div>
+                <div class="text-6xl opacity-90 hidden md:block">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+            </div>
+
+            <!-- Grid Pengelompokan Alat Musik -->
+            <div class="space-y-4">
+                <h3 class="heading-font text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-indigo-600"></i> Pengelompokan Alat Musik Berdasarkan Fungsi
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Melodis -->
+                    <div class="bg-white p-6 rounded-3xl shadow-md border-t-8 border-indigo-500 hover:shadow-xl transition">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">1. Alat Musik Melodis</h4>
+                        <p class="text-xs md:text-sm text-slate-600 mb-4 leading-relaxed">
+                            Alat musik yang bertugas memainkan susunan nada-nada melodi lagu (Do, Re, Mi, Fa, Sol, La, Si). Pianika tergolong dalam kelompok ini.
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs space-y-1">
+                            <p class="font-bold text-indigo-900">Contoh Alat Musik:</p>
+                            <p class="text-slate-600"><i class="fa-solid fa-check text-indigo-500 mr-1"></i> Pianika, Seruling/Rekorder, Biola, Saxophone, Trumpet.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ritmis -->
+                    <div class="bg-white p-6 rounded-3xl shadow-md border-t-8 border-emerald-500 hover:shadow-xl transition">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-drum"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">2. Alat Musik Ritmis</h4>
+                        <p class="text-xs md:text-sm text-slate-600 mb-4 leading-relaxed">
+                            Alat musik yang tidak memiliki nada pasti (unpitched). Berfungsi sebagai pengatur irama, ketukan (beat), dan tempo dalam musik.
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs space-y-1">
+                            <p class="font-bold text-emerald-900">Contoh Alat Musik:</p>
+                            <p class="text-slate-600"><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Drum Set, Kendang, Marakas, Tamborin, Trianggle, Gong.</p>
+                        </div>
+                    </div>
+
+                    <!-- Harmonis -->
+                    <div class="bg-white p-6 rounded-3xl shadow-md border-t-8 border-amber-500 hover:shadow-xl transition">
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fa-solid fa-guitar"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">3. Alat Musik Harmonis</h4>
+                        <p class="text-xs md:text-sm text-slate-600 mb-4 leading-relaxed">
+                            Alat musik yang dapat menghasilkan melodi sekaligus memainkan harmoni/akord (beberapa nada dibunyikan serentak secara bersamaan).
+                        </p>
+                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs space-y-1">
+                            <p class="font-bold text-amber-900">Contoh Alat Musik:</p>
+                            <p class="text-slate-600"><i class="fa-solid fa-check text-amber-500 mr-1"></i> Gitar, Piano, Keyboard, Harpa, Ukulele.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teknik Dasar Memainkan Pianika -->
+            <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200 space-y-4">
+                <h3 class="heading-font text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-hand-holding-hand text-indigo-600"></i> 4 Teknik Utama Bermain Pianika
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-center space-y-2">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto font-bold text-sm">1</div>
+                        <h5 class="font-bold text-sm text-indigo-950">Teknik Pernapasan</h5>
+                        <p class="text-xs text-slate-600">Tiup pipa dengan napas diafragma/perut yang stabil dan teratur agar nada yang dihasilkan jernih dan tidak sumbang.</p>
+                    </div>
+                    <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-center space-y-2">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto font-bold text-sm">2</div>
+                        <h5 class="font-bold text-sm text-indigo-950">Posisi Tangan</h5>
+                        <p class="text-xs text-slate-600">Tangan kanan menekan tuts dengan posisi jari melengkung rileks seperti sedang memegang bola kecil.</p>
+                    </div>
+                    <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-center space-y-2">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto font-bold text-sm">3</div>
+                        <h5 class="font-bold text-sm text-indigo-950">Penjarian (Fingering)</h5>
+                        <p class="text-xs text-slate-600">Gunakan sistem 1=Jempol, 2=Telunjuk, 3=Tengah, 4=Manis, 5=Kelingking sesuai wilayah tuts lagu.</p>
+                    </div>
+                    <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100 text-center space-y-2">
+                        <div class="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto font-bold text-sm">4</div>
+                        <h5 class="font-bold text-sm text-indigo-950">Artikulasi Lidah</h5>
+                        <p class="text-xs text-slate-600">Gunakan ucap lidah "Tu-Tu-Tu" saat meniup agar tiap ketukan nada terpisah secara presisi dan rapi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: PIANIKA VIRTUAL -->
+        <section id="sec-pianika" class="tab-content hidden space-y-6">
+            <!-- Header Toolbar -->
+            <div class="bg-white p-4 rounded-3xl shadow-md border border-slate-200 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h3 class="heading-font text-lg font-bold text-slate-800">Keyboard Pianika Virtual (32 Tuts Standar)</h3>
+                    <p class="text-xs text-slate-500">Mendukung Sentuhan Layar PID/HP, Klik Mouse, dan Keyboard Laptop (Tombol Q-W-E-R-T-Y... / A-S-D-F-G...)</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <!-- Mode Meniup Toggle -->
+                    <button onclick="toggleBlowMode()" id="btn-blow-mode" class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold transition flex items-center gap-2">
+                        <i class="fa-solid fa-wind text-indigo-600"></i>
+                        <span>Meniup: <strong id="lbl-blow-status" class="text-emerald-600">OTOMATIS</strong></span>
+                    </button>
+
+                    <!-- Notation Display Switcher -->
+                    <div class="bg-slate-100 p-1 rounded-2xl flex border border-slate-200 text-xs font-bold">
+                        <button onclick="setNotation('number')" id="btn-not-num" class="px-3 py-1.5 rounded-xl bg-indigo-600 text-white transition">1 2 3 (Angka)</button>
+                        <button onclick="setNotation('syllable')" id="btn-not-syl" class="px-3 py-1.5 rounded-xl text-slate-600 hover:bg-slate-200 transition">Do-Re-Mi</button>
+                        <button onclick="setNotation('letter')" id="btn-not-let" class="px-3 py-1.5 rounded-xl text-slate-600 hover:bg-slate-200 transition">C-D-E (Abjad)</button>
+                        <button onclick="setNotation('finger')" id="btn-not-fin" class="px-3 py-1.5 rounded-xl text-slate-600 hover:bg-slate-200 transition">Jari (1-5)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Display Monitor & Audio Spectrum -->
+            <div class="bg-slate-900 p-4 md:p-6 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-4 border border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-amber-400 text-indigo-950 rounded-2xl flex items-center justify-center text-xl font-bold shadow-md">
+                        <i class="fa-solid fa-wave-square"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Nada Aktif Saat Ini</p>
+                        <h4 id="current-note-display" class="text-amber-300 font-mono font-bold text-xl md:text-2xl">Tekan Tuts Pianika</h4>
+                    </div>
+                </div>
+
+                <!-- Wind Blowing Hose Animation Indicator -->
+                <div class="flex items-center gap-3 bg-slate-800/80 px-4 py-2 rounded-2xl border border-slate-700">
+                    <i class="fa-solid fa-smog text-sky-400 text-lg" id="hose-wind-icon"></i>
+                    <div class="text-xs">
+                        <span class="text-slate-400 block text-[10px] font-bold uppercase">Status Pipa Tiup</span>
+                        <span id="hose-status-text" class="text-sky-300 font-bold">Siap Ditiup</span>
+                    </div>
+                </div>
+
+                <!-- Audio Waveform Canvas -->
+                <div class="w-full md:w-64 h-12">
+                    <canvas id="audio-visualizer" class="w-full h-full rounded-xl bg-slate-950/80"></canvas>
+                </div>
+            </div>
+
+            <!-- REALISTIC PIANIKA CASING CONTAINER -->
+            <div class="pianika-body p-4 md:p-8 rounded-3xl border-4 border-blue-900 relative shadow-2xl">
+                
+                <!-- Pianika Top Branding Header -->
+                <div class="flex justify-between items-center mb-4 px-2 text-white font-bold tracking-widest text-xs uppercase">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-amber-400 text-indigo-950 px-2 py-0.5 rounded font-extrabold text-[10px]">SMP VII</span>
+                        <span class="text-blue-100"><i class="fa-solid fa-music mr-1"></i> PIANIKA STANDAR 32 TUTS (F3 - C6)</span>
+                    </div>
+                    <span class="text-amber-300 text-[10px] bg-blue-950/80 px-3 py-1 rounded-full border border-blue-400/30">
+                        19 Tuts Putih | 13 Tuts Hitam
+                    </span>
+                </div>
+
+                <!-- REALISTIC PIANIKA BODY STRUCTURE WITH MOUTHPIECE HOSE & DRAIN VALVE -->
+                <div class="flex items-center gap-1 md:gap-3">
+                    
+                    <!-- Left Side: Pipa Tiup / Extension Hose Connector -->
+                    <div class="flex flex-col items-center justify-center space-y-1">
+                        <div class="w-6 md:w-10 h-16 md:h-24 bg-gradient-to-r from-slate-200 via-slate-100 to-slate-300 rounded-l-2xl border-2 border-slate-400 shadow-md flex items-center justify-center relative">
+                            <div class="w-3 md:w-5 h-10 bg-slate-700 rounded-l-md border border-slate-900"></div>
+                            <!-- Accordion Hose extension visual -->
+                            <div id="pianika-hose-tube" class="absolute -left-6 w-6 h-12 border-b-4 border-t-4 border-l-4 border-slate-300 rounded-l-full opacity-80"></div>
+                        </div>
+                        <span class="text-[9px] text-blue-200 font-bold uppercase hidden md:inline-block">Pipa Tiup</span>
+                    </div>
+
+                    <!-- Center: Keyboard Keybed Frame -->
+                    <div class="keybed-frame p-2 md:p-3 rounded-2xl flex-grow overflow-x-auto keybed-scroll">
+                        <div class="relative flex justify-start select-none touch-none py-1 mx-auto" id="pianika-keyboard" style="min-width: 760px; height: 220px;">
+                            <!-- Keys rendered dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Air Release Valve / Tombol Buang Embun -->
+                    <div class="flex flex-col items-center justify-center space-y-1 pl-1">
+                        <button onclick="playDrainValveSound()" title="Tombol Buang Embun Air Pianika" class="w-8 md:w-10 h-16 md:h-24 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-r-2xl border-2 border-amber-600 shadow-md flex flex-col items-center justify-center p-1 transition text-indigo-950 font-bold text-[10px]">
+                            <i class="fa-solid fa-droplet text-sm md:text-base mb-1"></i>
+                            <span class="text-[8px] leading-tight text-center hidden md:block">Buang Embun</span>
+                        </button>
+                        <span class="text-[9px] text-blue-200 font-bold uppercase hidden md:inline-block">Katup</span>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Octave Guide Labels -->
+                <div class="flex justify-between items-center mt-3 px-8 text-[11px] font-bold text-blue-200">
+                    <span class="bg-blue-900/60 px-3 py-1 rounded-lg border border-blue-400/30">Wilayah Nada Rendah (F3 - B3)</span>
+                    <span class="bg-blue-900/60 px-3 py-1 rounded-lg border border-blue-400/30">Wilayah Nada Sedang (C4 - B4)</span>
+                    <span class="bg-blue-900/60 px-3 py-1 rounded-lg border border-blue-400/30">Wilayah Nada Tinggi (C5 - C6)</span>
+                </div>
+            </div>
+
+            <!-- Petunjuk Penjarian & Fingering Chart -->
+            <div class="bg-indigo-50 border border-indigo-100 p-4 rounded-3xl flex flex-col md:flex-row items-center justify-between text-indigo-950 text-xs md:text-sm gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-lg flex-shrink-0">
+                        <i class="fa-solid fa-hand"></i>
+                    </div>
+                    <div>
+                        <strong class="block text-indigo-900">Panduan Penjarian Tangan Kanan (C Major):</strong>
+                        <span class="text-slate-600">1 = Ibu Jari (Do), 2 = Telunjuk (Re), 3 = Jari Tengah (Mi), 4 = Jari Manis (Fa), 5 = Kelingking (Sol).</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                    <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm border font-bold text-slate-700">C4 = 1 (Jempol)</span>
+                    <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm border font-bold text-slate-700">D4 = 2 (Telunjuk)</span>
+                    <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm border font-bold text-slate-700">E4 = 3 (Tengah)</span>
+                    <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm border font-bold text-slate-700">F4 = 4 (Manis)</span>
+                    <span class="bg-white px-3 py-1.5 rounded-xl shadow-sm border font-bold text-slate-700">G4 = 5 (Kelingking)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PRAKTIK LAGU -->
+        <section id="sec-lagu" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="heading-font text-xl font-bold text-slate-800">Mode Panduan Praktik Unjuk Kerja Lagu</h3>
+                        <p class="text-xs text-slate-500">Pilih lagu daerah/nasional di bawah untuk belajar mempraktikkan melodi tuts pianika.</p>
+                    </div>
+                    
+                    <!-- Song Selector Dropdown -->
+                    <div class="flex items-center space-x-2 w-full md:w-auto">
+                        <label for="song-select" class="text-xs font-bold text-slate-700 whitespace-nowrap">Pilih Lagu:</label>
+                        <select id="song-select" onchange="loadSelectedSong()" class="w-full md:w-auto bg-slate-100 border border-slate-300 text-slate-800 text-xs font-bold rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="kartini">Ibu Kita Kartini (Nasional)</option>
+                            <option value="gundul">Gundul Pacul (Jawa Tengah)</option>
+                            <option value="suwe">Suwe Ora Jamu (D.I. Yogyakarta)</option>
+                            <option value="padamu">Padamu Negeri (Nasional)</option>
+                            <option value="kambing">Anak Kambing Saya (Nusa Tenggara)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sheet Music Display Box -->
+                <div class="bg-amber-50/70 border border-amber-200 p-6 rounded-3xl space-y-4">
+                    <div class="text-center">
+                        <h4 id="song-title" class="heading-font text-2xl font-bold text-slate-800">Ibu Kita Kartini</h4>
+                        <p id="song-composer" class="text-xs text-slate-600 mt-1">Ciptaan: W.R. Soepratman | Nada Dasar: C = Do</p>
+                    </div>
+
+                    <!-- Visual Interactive Song Notes Container -->
+                    <div id="song-notes-container" class="flex flex-wrap gap-2 justify-center p-4 bg-white rounded-2xl border border-amber-200 shadow-inner min-h-[110px] items-center">
+                        <!-- Notes will be generated by JS -->
+                    </div>
+
+                    <!-- Song Control Buttons -->
+                    <div class="flex flex-wrap justify-center items-center gap-3 pt-2">
+                        <button onclick="startSongPractice()" id="btn-start-song" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-xs md:text-sm">
+                            <i class="fa-solid fa-play"></i> Mulai Panduan Tuts
+                        </button>
+                        <button onclick="playSongDemo()" id="btn-demo-song" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-xs md:text-sm">
+                            <i class="fa-solid fa-volume-high"></i> Putar Contoh Melodi
+                        </button>
+                        <button onclick="resetSongPractice()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-4 py-2.5 rounded-xl transition text-xs md:text-sm">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mini Keybed for Guided Song Practice -->
+                <div class="bg-slate-900 p-4 rounded-3xl shadow-lg border border-slate-800">
+                    <p class="text-xs text-slate-300 text-center mb-3 font-semibold">Ikuti sorotan tuts berwarna kuning emas pada pianika mini di bawah ini:</p>
+                    <div class="keybed-frame p-2 rounded-2xl overflow-x-auto keybed-scroll">
+                        <div class="relative flex justify-start select-none touch-none py-1 mx-auto" id="mini-pianika-keyboard" style="min-width: 620px; height: 150px;">
+                            <!-- Mini keyboard dynamically rendered -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: KUIS INTERAKTIF -->
+        <section id="sec-kuis" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-3xl shadow-md border border-slate-200 max-w-3xl mx-auto space-y-6">
+                <!-- Header Kuis -->
+                <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-indigo-600 tracking-wider">Evaluasi Formatif</span>
+                        <h3 class="heading-font text-2xl font-bold text-slate-800">Kuis Pengetahuan Musik & Pianika</h3>
+                    </div>
+                    <div class="bg-indigo-50 text-indigo-800 font-bold px-4 py-2 rounded-2xl text-sm border border-indigo-100" id="quiz-score">
+                        Skor: 0
+                    </div>
+                </div>
+
+                <!-- Quiz Card Box -->
+                <div id="quiz-box" class="space-y-4">
+                    <div>
+                        <span id="quiz-number" class="text-xs font-bold bg-amber-100 text-amber-900 px-3 py-1 rounded-full">Soal 1 dari 5</span>
+                        <h4 id="quiz-question" class="text-base md:text-lg font-bold text-slate-800 mt-3 leading-snug">...</h4>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                        <!-- Options generated by JS -->
+                    </div>
+
+                    <!-- Quiz Feedback Banner -->
+                    <div id="quiz-feedback" class="hidden p-4 rounded-2xl text-xs md:text-sm font-bold text-center"></div>
+
+                    <!-- Next Button -->
+                    <div class="flex justify-end pt-2">
+                        <button onclick="nextQuestion()" id="btn-next-quiz" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl transition text-xs md:text-sm">
+                            Soal Berikutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Screen -->
+                <div id="quiz-result" class="hidden text-center py-8 space-y-4">
+                    <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h4 class="heading-font text-2xl font-bold text-slate-800">Kuis Selesai!</h4>
+                    <p class="text-slate-600 text-sm" id="result-text">Skor Akhir Anda: 0 / 100</p>
+                    <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl transition shadow">
+                        Coba Lagi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-3 px-4 text-center text-xs text-slate-500">
+        Media Pembelajaran Interaktif Seni Musik Kelas VII SMP &copy; 2026 | Siap dioperasikan pada Laptop, PID, Smartphone, & Proyektor.
+    </footer>
+
+    <!-- JavaScript Audio & Logic Engine -->
+    <script>
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+        let analyser = null;
+        let isBlowModeAuto = true;
+        let activeOscillators = {};
+        let currentNotation = 'number';
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new AudioContext();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 64;
+                startVisualizer();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Exact Frequencies for 32 Pianika Keys (F3 to C6)
+        const noteFrequencies = {
+            'F3': 174.61, 'F#3': 185.00, 'G3': 196.00, 'G#3': 207.65, 'A3': 220.00, 'A#3': 233.08, 'B3': 246.94,
+            'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+            'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+            'A#4': 466.16, 'B4': 493.88, 'C5': 523.25, 'C#5': 554.37, 'D5': 587.33,
+            'D#5': 622.25, 'E5': 659.25, 'F5': 698.46, 'F#5': 739.99, 'G5': 783.99,
+            'G#5': 830.61, 'A5': 880.00, 'A#5': 932.33, 'B5': 987.77, 'C6': 1046.50
+        };
+
+        // Complete Notation Mapping for all 32 Keys
+        const noteLabels = {
+            'F3': { num: '4̣', syl: 'Fạ', let: 'F3', fin: '1' },
+            'F#3': { num: '4̣♯', syl: 'Fạ♯', let: 'F♯3', fin: '1♯' },
+            'G3': { num: '5̣', syl: 'Soḷ', let: 'G3', fin: '2' },
+            'G#3': { num: '5̣♯', syl: 'Soḷ♯', let: 'G♯3', fin: '2♯' },
+            'A3': { num: '6̣', syl: 'Lạ', let: 'A3', fin: '3' },
+            'A#3': { num: '6̣♯', syl: 'Lạ♯', let: 'A♯3', fin: '3♯' },
+            'B3': { num: '7̣', syl: 'Sị', let: 'B3', fin: '4' },
+
+            'C4': { num: '1', syl: 'Do', let: 'C4', fin: '1' },
+            'C#4': { num: '1♯', syl: 'Do♯', let: 'C♯4', fin: '1♯' },
+            'D4': { num: '2', syl: 'Re', let: 'D4', fin: '2' },
+            'D#4': { num: '2♯', syl: 'Re♯', let: 'D♯4', fin: '2♯' },
+            'E4': { num: '3', syl: 'Mi', let: 'E4', fin: '3' },
+            'F4': { num: '4', syl: 'Fa', let: 'F4', fin: '4' },
+            'F#4': { num: '4♯', syl: 'Fa♯', let: 'F♯4', fin: '4♯' },
+            'G4': { num: '5', syl: 'Sol', let: 'G4', fin: '5' },
+            'G#4': { num: '5♯', syl: 'Sol♯', let: 'G♯4', fin: '5♯' },
+            'A4': { num: '6', syl: 'La', let: 'A4', fin: '1' },
+            'A#4': { num: '6♯', syl: 'La♯', let: 'A♯4', fin: '1♯' },
+            'B4': { num: '7', syl: 'Si', let: 'B4', fin: '2' },
+
+            'C5': { num: '1̇', syl: 'Dȯ', let: 'C5', fin: '3' },
+            'C#5': { num: '1̇♯', syl: 'Dȯ♯', let: 'C♯5', fin: '3♯' },
+            'D5': { num: '2̇', syl: 'Rė', let: 'D5', fin: '4' },
+            'D#5': { num: '2̇♯', syl: 'Rė♯', let: 'D♯5', fin: '4♯' },
+            'E5': { num: '3̇', syl: 'Mi̇', let: 'E5', fin: '5' },
+            'F5': { num: '4̇', syl: 'Fȧ', let: 'F5', fin: '1' },
+            'F#5': { num: '4̇♯', syl: 'Fȧ♯', let: 'F♯5', fin: '1♯' },
+            'G5': { num: '5̇', syl: 'Sol̇', let: 'G5', fin: '2' },
+            'G#5': { num: '5̇♯', syl: 'Sol̇♯', let: 'G♯5', fin: '2♯' },
+            'A5': { num: '6̇', syl: 'Lȧ', let: 'A5', fin: '3' },
+            'A#5': { num: '6̇♯', syl: 'Lȧ♯', let: 'A♯5', fin: '3♯' },
+            'B5': { num: '7̇', syl: 'Si̇', let: 'B5', fin: '4' },
+
+            'C6': { num: '1̈', syl: 'Dö', let: 'C6', fin: '5' }
+        };
+
+        // Standard 19 White Keys in exact order
+        const whiteKeysList = [
+            { note: 'F3', keyBind: 'z' },
+            { note: 'G3', keyBind: 'x' },
+            { note: 'A3', keyBind: 'c' },
+            { note: 'B3', keyBind: 'v' },
+
+            { note: 'C4', keyBind: 'b' },
+            { note: 'D4', keyBind: 'n' },
+            { note: 'E4', keyBind: 'm' },
+            { note: 'F4', keyBind: 'q' },
+            { note: 'G4', keyBind: 'w' },
+            { note: 'A4', keyBind: 'e' },
+            { note: 'B4', keyBind: 'r' },
+
+            { note: 'C5', keyBind: 't' },
+            { note: 'D5', keyBind: 'y' },
+            { note: 'E5', keyBind: 'u' },
+            { note: 'F5', keyBind: 'i' },
+            { note: 'G5', keyBind: 'o' },
+            { note: 'A5', keyBind: 'p' },
+            { note: 'B5', keyBind: '[' },
+
+            { note: 'C6', keyBind: ']' }
+        ];
+
+        // 13 Black Keys and the index of the white key they sit directly on top of
+        const blackKeysList = [
+            { note: 'F#3', afterWhiteIdx: 0, keyBind: 's' },
+            { note: 'G#3', afterWhiteIdx: 1, keyBind: 'd' },
+            { note: 'A#3', afterWhiteIdx: 2, keyBind: 'f' },
+
+            { note: 'C#4', afterWhiteIdx: 4, keyBind: 'h' },
+            { note: 'D#4', afterWhiteIdx: 5, keyBind: 'j' },
+
+            { note: 'F#4', afterWhiteIdx: 7, keyBind: '2' },
+            { note: 'G#4', afterWhiteIdx: 8, keyBind: '3' },
+            { note: 'A#4', afterWhiteIdx: 9, keyBind: '4' },
+
+            { note: 'C#5', afterWhiteIdx: 11, keyBind: '6' },
+            { note: 'D#5', afterWhiteIdx: 12, keyBind: '7' },
+
+            { note: 'F#5', afterWhiteIdx: 14, keyBind: '9' },
+            { note: 'G#5', afterWhiteIdx: 15, keyBind: '0' },
+            { note: 'A#5', afterWhiteIdx: 16, keyBind: '-' }
+        ];
+
+        function renderKeyboards() {
+            const mainBoard = document.getElementById('pianika-keyboard');
+            const miniBoard = document.getElementById('mini-pianika-keyboard');
+
+            mainBoard.innerHTML = '';
+            miniBoard.innerHTML = '';
+
+            buildKeyboardLayout(mainBoard, false);
+            buildKeyboardLayout(miniBoard, true);
+        }
+
+        function buildKeyboardLayout(container, isMini) {
+            const wWidth = isMini ? 28 : 38;
+            const wHeight = isMini ? 130 : 190;
+            const bWidth = isMini ? 18 : 24;
+            const bHeight = isMini ? 80 : 115;
+
+            // 1. Render Row of White Keys
+            const whiteRow = document.createElement('div');
+            whiteRow.className = 'flex flex-nowrap relative z-0';
+
+            whiteKeysList.forEach((item, idx) => {
+                const keyDiv = document.createElement('div');
+                keyDiv.className = `white-key flex flex-col justify-end items-center pb-2 text-slate-800 font-extrabold select-none ${isMini ? 'text-[9px]' : 'text-xs'}`;
+                keyDiv.style.width = `${wWidth}px`;
+                keyDiv.style.height = `${wHeight}px`;
+                keyDiv.dataset.note = item.note;
+                keyDiv.id = (isMini ? 'mini-key-' : 'key-') + item.note;
+
+                const labelText = noteLabels[item.note] ? noteLabels[item.note][currentNotation] : item.note;
+                const span = document.createElement('span');
+                span.className = 'pointer-events-none';
+                span.textContent = labelText;
+                keyDiv.appendChild(span);
+
+                attachKeyEvents(keyDiv, item.note);
+                whiteRow.appendChild(keyDiv);
+            });
+
+            container.appendChild(whiteRow);
+
+            // 2. Render Overlay Layer of Black Keys at exact relative positions
+            blackKeysList.forEach((item) => {
+                const keyDiv = document.createElement('div');
+                keyDiv.className = `black-key absolute z-10 flex flex-col justify-end items-center pb-2 text-white font-bold select-none ${isMini ? 'text-[8px]' : 'text-[10px]'}`;
+                keyDiv.style.width = `${bWidth}px`;
+                keyDiv.style.height = `${bHeight}px`;
+                
+                // Position black key right over the seam between white keys
+                const leftPos = (item.afterWhiteIdx * wWidth) + (wWidth * 0.65);
+                keyDiv.style.left = `${leftPos}px`;
+                keyDiv.style.top = '0px';
+
+                keyDiv.dataset.note = item.note;
+                keyDiv.id = (isMini ? 'mini-key-' : 'key-') + item.note;
+
+                const labelText = noteLabels[item.note] ? noteLabels[item.note][currentNotation] : item.note;
+                const span = document.createElement('span');
+                span.className = 'pointer-events-none';
+                span.textContent = labelText;
+                keyDiv.appendChild(span);
+
+                attachKeyEvents(keyDiv, item.note);
+                container.appendChild(keyDiv);
+            });
+        }
+
+        function attachKeyEvents(element, note) {
+            const startHandler = (e) => {
+                e.preventDefault();
+                playTone(note);
+            };
+            const endHandler = (e) => {
+                e.preventDefault();
+                stopTone(note);
+            };
+
+            element.addEventListener('mousedown', startHandler);
+            element.addEventListener('mouseup', endHandler);
+            element.addEventListener('mouseleave', endHandler);
+            element.addEventListener('touchstart', startHandler);
+            element.addEventListener('touchend', endHandler);
+        }
+
+        function playTone(note) {
+            initAudio();
+            if (activeOscillators[note]) return;
+
+            const freq = noteFrequencies[note];
+            if (!freq) return;
+
+            // Oscillator 1: Sawtooth (Rich reedy sound)
+            const osc1 = audioCtx.createOscillator();
+            osc1.type = 'sawtooth';
+            osc1.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            // Oscillator 2: Triangle (Warm undertone)
+            const osc2 = audioCtx.createOscillator();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.22, audioCtx.currentTime + 0.03);
+
+            osc1.connect(gainNode);
+            osc2.connect(gainNode);
+            gainNode.connect(analyser);
+            analyser.connect(audioCtx.destination);
+
+            osc1.start();
+            osc2.start();
+
+            activeOscillators[note] = { osc1, osc2, gainNode };
+
+            updateDisplayNote(note);
+            highlightKeyUI(note, true);
+            setBlowingAnimation(true);
+
+            if (isSongPracticeActive) {
+                checkSongProgress(note);
+            }
+        }
+
+        function stopTone(note) {
+            if (activeOscillators[note]) {
+                const { osc1, osc2, gainNode } = activeOscillators[note];
+                gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.06);
+                setTimeout(() => {
+                    try {
+                        osc1.stop();
+                        osc2.stop();
+                        osc1.disconnect();
+                        osc2.disconnect();
+                    } catch(e){}
+                }, 70);
+                delete activeOscillators[note];
+            }
+            highlightKeyUI(note, false);
+
+            if (Object.keys(activeOscillators).length === 0) {
+                setBlowingAnimation(false);
+            }
+        }
+
+        function setBlowingAnimation(isBlowing) {
+            const icon = document.getElementById('hose-wind-icon');
+            const text = document.getElementById('hose-status-text');
+            if (isBlowing) {
+                icon.classList.add('blowing-active');
+                text.textContent = 'Meniup Udara...';
+                text.className = 'text-amber-400 font-bold';
+            } else {
+                icon.classList.remove('blowing-active');
+                text.textContent = 'Siap Ditiup';
+                text.className = 'text-sky-300 font-bold';
+            }
+        }
+
+        function playDrainValveSound() {
+            initAudio();
+            const bufferSize = audioCtx.sampleRate * 0.2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 1200;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            noise.start();
+        }
+
+        function updateDisplayNote(note) {
+            const info = noteLabels[note];
+            if (info) {
+                document.getElementById('current-note-display').textContent = `${info.num} - ${info.syl} (${info.let})`;
+            }
+        }
+
+        function toggleBlowMode() {
+            isBlowModeAuto = !isBlowModeAuto;
+            const statusEl = document.getElementById('lbl-blow-status');
+            if (isBlowModeAuto) {
+                statusEl.textContent = 'OTOMATIS';
+                statusEl.className = 'text-emerald-600';
+            } else {
+                statusEl.textContent = 'MANUAL (Pipa)';
+                statusEl.className = 'text-amber-600';
+            }
+        }
+
+        function highlightKeyUI(note, isActive) {
+            const el1 = document.getElementById('key-' + note);
+            const el2 = document.getElementById('mini-key-' + note);
+
+            [el1, el2].forEach(el => {
+                if (el) {
+                    if (isActive) el.classList.add('active');
+                    else el.classList.remove('active');
+                }
+            });
+        }
+
+        function setNotation(type) {
+            currentNotation = type;
+            ['btn-not-num', 'btn-not-syl', 'btn-not-let', 'btn-not-fin'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) btn.className = 'px-3 py-1.5 rounded-xl text-slate-600 hover:bg-slate-200 transition';
+            });
+
+            if (type === 'number') document.getElementById('btn-not-num').className = 'px-3 py-1.5 rounded-xl bg-indigo-600 text-white transition';
+            if (type === 'syllable') document.getElementById('btn-not-syl').className = 'px-3 py-1.5 rounded-xl bg-indigo-600 text-white transition';
+            if (type === 'letter') document.getElementById('btn-not-let').className = 'px-3 py-1.5 rounded-xl bg-indigo-600 text-white transition';
+            if (type === 'finger') document.getElementById('btn-not-fin').className = 'px-3 py-1.5 rounded-xl bg-indigo-600 text-white transition';
+
+            renderKeyboards();
+        }
+
+        function startVisualizer() {
+            const canvas = document.getElementById('audio-visualizer');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+            function draw() {
+                requestAnimationFrame(draw);
+                analyser.getByteFrequencyData(dataArray);
+
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.5)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const barWidth = (canvas.width / dataArray.length) * 1.8;
+                let barHeight;
+                let x = 0;
+
+                for (let i = 0; i < dataArray.length; i++) {
+                    barHeight = dataArray[i] / 5;
+                    ctx.fillStyle = `rgb(${barHeight * 4 + 100}, 211, 238)`;
+                    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                    x += barWidth + 1;
+                }
+            }
+            draw();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.repeat) return;
+            const keyLower = e.key.toLowerCase();
+            const matchW = whiteKeysList.find(k => k.keyBind === keyLower);
+            const matchB = blackKeysList.find(k => k.keyBind === keyLower);
+
+            if (matchW) playTone(matchW.note);
+            if (matchB) playTone(matchB.note);
+        });
+
+        window.addEventListener('keyup', (e) => {
+            const keyLower = e.key.toLowerCase();
+            const matchW = whiteKeysList.find(k => k.keyBind === keyLower);
+            const matchB = blackKeysList.find(k => k.keyBind === keyLower);
+
+            if (matchW) stopTone(matchW.note);
+            if (matchB) stopTone(matchB.note);
+        });
+
+        const songsData = {
+            kartini: {
+                title: 'Ibu Kita Kartini',
+                composer: 'W.R. Soepratman',
+                notes: [
+                    { note: 'C4', label: '1' }, { note: 'D4', label: '2' }, { note: 'E4', label: '3' }, { note: 'F4', label: '4' }, 
+                    { note: 'G4', label: '5' }, { note: 'E4', label: '3' }, { note: 'C4', label: '1' }, 
+                    { note: 'A4', label: '6' }, { note: 'C5', label: '1̇' }, { note: 'B4', label: '7' }, { note: 'A4', label: '6' }, { note: 'G4', label: '5' }
+                ]
+            },
+            gundul: {
+                title: 'Gundul Pacul',
+                composer: 'R.C. Hardjosobroto (Jawa Tengah)',
+                notes: [
+                    { note: 'C4', label: '1' }, { note: 'E4', label: '3' }, { note: 'C4', label: '1' }, { note: 'E4', label: '3' }, 
+                    { note: 'F4', label: '4' }, { note: 'G4', label: '5' }, { note: 'G4', label: '5' },
+                    { note: 'B4', label: '7' }, { note: 'C5', label: '1̇' }, { note: 'B4', label: '7' }, { note: 'C5', label: '1̇' }, { note: 'G4', label: '5' }
+                ]
+            },
+            suwe: {
+                title: 'Suwe Ora Jamu',
+                composer: 'R.C. Hardjosobroto (D.I. Yogyakarta)',
+                notes: [
+                    { note: 'C4', label: '1' }, { note: 'C4', label: '1' }, { note: 'E4', label: '3' }, { note: 'E4', label: '3' }, 
+                    { note: 'F4', label: '4' }, { note: 'G4', label: '5' }, { note: 'G4', label: '5' },
+                    { note: 'A4', label: '6' }, { note: 'G4', label: '5' }, { note: 'F4', label: '4' }, { note: 'E4', label: '3' }
+                ]
+            },
+            padamu: {
+                title: 'Padamu Negeri',
+                composer: 'Kusbini',
+                notes: [
+                    { note: 'G4', label: '5' }, { note: 'C5', label: '1̇' }, { note: 'B4', label: '7' }, { note: 'C5', label: '1̇' }, 
+                    { note: 'D5', label: '2̇' }, { note: 'E5', label: '3̇' }, { note: 'C5', label: '1̇' },
+                    { note: 'A4', label: '6' }, { note: 'G4', label: '5' }
+                ]
+            },
+            kambing: {
+                title: 'Anak Kambing Saya',
+                composer: 'Ibu Sud (Nusa Tenggara)',
+                notes: [
+                    { note: 'C4', label: '1' }, { note: 'C4', label: '1' }, { note: 'E4', label: '3' }, { note: 'E4', label: '3' },
+                    { note: 'G4', label: '5' }, { note: 'G4', label: '5' }, { note: 'E4', label: '3' }, { note: 'C4', label: '1' },
+                    { note: 'D4', label: '2' }, { note: 'D4', label: '2' }, { note: 'F4', label: '4' }, { note: 'D4', label: '2' }, { note: 'C4', label: '1' }
+                ]
+            }
+        };
+
+        let currentSongKey = 'kartini';
+        let currentNoteIndex = 0;
+        let isSongPracticeActive = false;
+        let demoInterval = null;
+
+        function loadSelectedSong() {
+            currentSongKey = document.getElementById('song-select').value;
+            const song = songsData[currentSongKey];
+            document.getElementById('song-title').textContent = song.title;
+            document.getElementById('song-composer').textContent = `Ciptaan: ${song.composer} | Nada Dasar: C = Do`;
+            resetSongPractice();
+        }
+
+        function renderSongNotes() {
+            const container = document.getElementById('song-notes-container');
+            container.innerHTML = '';
+
+            const song = songsData[currentSongKey];
+            song.notes.forEach((item, index) => {
+                const box = document.createElement('div');
+                box.id = `song-note-item-${index}`;
+                box.className = `px-3.5 py-2 rounded-xl text-center border font-bold transition flex flex-col items-center justify-center ${index === currentNoteIndex && isSongPracticeActive ? 'bg-amber-400 text-slate-900 border-amber-500 scale-110 shadow-md ring-2 ring-amber-300' : 'bg-slate-50 text-slate-700 border-slate-200'}`;
+                
+                box.innerHTML = `
+                    <span class="text-base font-extrabold">${item.label}</span>
+                    <span class="text-[9px] text-slate-400 font-normal uppercase">${item.note}</span>
+                `;
+                container.appendChild(box);
+            });
+        }
+
+        function startSongPractice() {
+            clearInterval(demoInterval);
+            isSongPracticeActive = true;
+            currentNoteIndex = 0;
+            renderSongNotes();
+            highlightTargetKey();
+            document.getElementById('btn-start-song').textContent = 'Sedang Berlangsung...';
+            document.getElementById('btn-start-song').className = 'bg-amber-600 text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-xs md:text-sm';
+        }
+
+        function playSongDemo() {
+            resetSongPractice();
+            const song = songsData[currentSongKey];
+            let idx = 0;
+
+            demoInterval = setInterval(() => {
+                if (idx < song.notes.length) {
+                    const note = song.notes[idx].note;
+                    playTone(note);
+                    setTimeout(() => stopTone(note), 350);
+                    idx++;
+                } else {
+                    clearInterval(demoInterval);
+                }
+            }, 500);
+        }
+
+        function resetSongPractice() {
+            clearInterval(demoInterval);
+            isSongPracticeActive = false;
+            currentNoteIndex = 0;
+            clearKeyHighlights();
+            renderSongNotes();
+            document.getElementById('btn-start-song').textContent = 'Mulai Panduan Tuts';
+            document.getElementById('btn-start-song').className = 'bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition flex items-center gap-2 text-xs md:text-sm';
+        }
+
+        function highlightTargetKey() {
+            clearKeyHighlights();
+            if (!isSongPracticeActive) return;
+
+            const song = songsData[currentSongKey];
+            if (currentNoteIndex < song.notes.length) {
+                const targetNote = song.notes[currentNoteIndex].note;
+                const el1 = document.getElementById('key-' + targetNote);
+                const el2 = document.getElementById('mini-key-' + targetNote);
+
+                [el1, el2].forEach(el => {
+                    if (el) el.classList.add('key-highlight');
+                });
+            }
+        }
+
+        function clearKeyHighlights() {
+            document.querySelectorAll('.key-highlight').forEach(el => el.classList.remove('key-highlight'));
+        }
+
+        function checkSongProgress(playedNote) {
+            const song = songsData[currentSongKey];
+            if (currentNoteIndex < song.notes.length) {
+                if (playedNote === song.notes[currentNoteIndex].note) {
+                    currentNoteIndex++;
+                    renderSongNotes();
+                    if (currentNoteIndex >= song.notes.length) {
+                        playChimeSound(true);
+                        setTimeout(() => {
+                            resetSongPractice();
+                        }, 300);
+                    } else {
+                        highlightTargetKey();
+                    }
+                }
+            }
+        }
+
+        const quizQuestions = [
+            {
+                q: "Alat musik Pianika tergolong ke dalam kelompok alat musik berdasarkan fungsinya sebagai...",
+                options: ["Alat Musik Ritmis", "Alat Musik Melodis", "Alat Musik Harmonis", "Alat Musik Perkusi"],
+                answer: 1
+            },
+            {
+                q: "Bagaimanakah teknik memainkan alat musik Pianika dengan benar?",
+                options: ["Dipetik senarnya", "Ditiup pipa tiupnya dan ditekan tutsnya", "Dipukul menggunakan stik kayu", "Digoyangkan hingga berbunyi"],
+                answer: 1
+            },
+            {
+                q: "Penjarian (fingering) nomor 1 pada tangan kanan saat memainkan Pianika digunakan untuk...",
+                options: ["Jari Telunjuk", "Jari Tengah", "Ibu Jari (Jempol)", "Jari Kelingking"],
+                answer: 2
+            },
+            {
+                q: "Manakah di bawah ini yang merupakan contoh alat musik Ritmis?",
+                options: ["Gitar", "Seruling", "Biola", "Kendang / Drum"],
+                answer: 3
+            },
+            {
+                q: "Untuk menghasilkan tiupan nada yang rapi dan terputus pada pianika, artikulasi pengucapan lidah yang benar adalah...",
+                options: ["Pengucapan 'Tu-Tu-Tu'", "Pengucapan 'La-La-La'", "Pengucapan 'Ha-Ha-Ha'", "Meniup tanpa artikulasi lidah"],
+                answer: 0
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        function loadQuizQuestion() {
+            const data = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-number').textContent = `Soal ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-question').textContent = data.q;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'p-4 rounded-2xl border border-slate-200 text-left font-semibold hover:bg-indigo-50 hover:border-indigo-300 transition text-xs md:text-sm text-slate-700 flex items-center justify-between gap-2';
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-300"></i>`;
+                btn.onclick = () => selectQuizAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback').className = 'hidden p-4 rounded-2xl text-xs md:text-sm font-bold text-center';
+            document.getElementById('btn-next-quiz').classList.add('hidden');
+        }
+
+        function selectQuizAnswer(selectedIndex, clickedBtn) {
+            const data = quizQuestions[currentQuizIndex];
+            const optionsBtns = document.getElementById('quiz-options').children;
+
+            for (let btn of optionsBtns) {
+                btn.disabled = true;
+                btn.classList.add('cursor-not-allowed');
+            }
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if (selectedIndex === data.answer) {
+                quizScore += 20;
+                playChimeSound(true);
+                clickedBtn.className = 'p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold text-xs md:text-sm flex items-center justify-between';
+                clickedBtn.querySelector('i').className = 'fa-solid fa-circle-check text-emerald-600';
+                feedback.className = 'p-3 rounded-2xl text-xs md:text-sm font-bold mb-2 text-center bg-emerald-100 text-emerald-900 border border-emerald-200';
+                feedback.textContent = 'Jawaban Benar! Tepat sekali.';
+            } else {
+                playChimeSound(false);
+                clickedBtn.className = 'p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-rose-950 font-semibold text-xs md:text-sm flex items-center justify-between';
+                clickedBtn.querySelector('i').className = 'fa-solid fa-circle-xmark text-rose-600';
+                
+                optionsBtns[data.answer].className = 'p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-semibold text-xs md:text-sm flex items-center justify-between';
+                optionsBtns[data.answer].querySelector('i').className = 'fa-solid fa-circle-check text-emerald-600';
+
+                feedback.className = 'p-3 rounded-2xl text-xs md:text-sm font-bold mb-2 text-center bg-rose-100 text-rose-900 border border-rose-200';
+                feedback.textContent = 'Jawaban Kurang Tepat.';
+            }
+
+            document.getElementById('quiz-score').textContent = `Skor: ${quizScore}`;
+            document.getElementById('btn-next-quiz').classList.remove('hidden');
+        }
+
+        function playChimeSound(isSuccess) {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (isSuccess) {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+            document.getElementById('result-text').textContent = `Skor Akhir Anda: ${quizScore} / 100`;
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quiz-score').textContent = `Skor: 0`;
+            document.getElementById('quiz-box').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            loadQuizQuestion();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.className = 'nav-btn px-3.5 py-2 rounded-xl text-indigo-200 hover:text-white hover:bg-indigo-800 transition flex items-center gap-2';
+            });
+
+            document.getElementById('sec-' + tabName).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tabName);
+            if (activeBtn) {
+                activeBtn.className = 'nav-btn px-3.5 py-2 rounded-xl bg-indigo-600 text-white shadow transition flex items-center gap-2';
+            }
+
+            if (tabName === 'lagu') {
+                renderSongNotes();
+            }
+        }
+
+        window.onload = function() {
+            renderKeyboards();
+            loadSelectedSong();
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>
